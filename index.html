@@ -371,13 +371,13 @@
 
       <div class="form-group">
         <textarea id="icpProblem" name="icpProblem" rows="3" maxlength="300" placeholder=" " oninput="updateCharCount(this, 'problemCount')"></textarea>
-        <label>Customer Problem</label>
+        <label>Customer's Problem</label>
         <div class="char-count" id="problemCount">0/300</div>
       </div>
 
       <div class="form-group">
         <textarea id="icpSolution" name="icpSolution" rows="3" maxlength="300" placeholder=" " oninput="updateCharCount(this, 'solutionCount')"></textarea>
-        <label>Customer Solution</label>
+        <label>Customer's Solution</label>
         <div class="char-count" id="solutionCount">0/300</div>
       </div>
 
@@ -607,9 +607,12 @@
         // Create FormData object
         const formData = new FormData(this);
         
-        // Manually append the files (fixes Chrome/Firefox differences)
+        // Remove any existing image entries
+        formData.delete('images');
+        
+        // Append all files as a single array under 'images[]'
         uploadedFiles.forEach(file => {
-          formData.append('images', file);
+          formData.append('images[]', file);
         });
         
         // Webhook URL
