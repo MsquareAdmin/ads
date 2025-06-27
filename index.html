@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Interactive Ad Creative Brief</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --primary-light: #e0e7ff;
+      --text: #111827;
+      --text-light: #6b7280;
+      --border: #d1d5db;
+      --bg: #f9fafb;
+      --bg-dark: #f3f4f6;
+      --success: #10b981;
+      --error: #ef4444;
+    }
+    
+    * { 
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-dark);
+      margin: 0;
+      padding: 60px 20px;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: white;
+      padding: 50px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--text);
+      text-align: center;
+      margin-bottom: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    h1:before, h1:after {
+      content: "";
+      display: block;
+      width: 40px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+      border-radius: 3px;
+    }
+
+    h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      padding: 12px 0;
+      margin-top: 48px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid var(--primary-light);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 28px;
+      position: relative;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 18px 16px;
+      font-size: 15px;
+      font-family: 'Inter', sans-serif;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--bg);
+      transition: all 0.2s ease;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: white;
+      box-shadow: 0 0 0 3px var(--primary-light);
+    }
+
+    .form-group label {
+      position: absolute;
+      top: 50%;
+      left: 16px;
+      transform: translateY(-50%);
+      background: white;
+      padding: 0 6px;
+      color: var(--text-light);
+      font-size: 14px;
+      font-weight: 500;
+      pointer-events: none;
+      transition: all 0.2s ease;
+    }
+
+    .form-group input:focus + label,
+    .form-group textarea:focus + label,
+    .form-group select:focus + label,
+    .form-group input:not(:placeholder-shown) + label,
+    .form-group textarea:not(:placeholder-shown) + label,
+    .form-group select:not([value=""]) + label {
+      top: -10px;
+      left: 12px;
+      font-size: 12px;
+      color: var(--primary-dark);
+      font-weight: 600;
+    }
+
+    .form-group textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .char-count {
+      text-align: right;
+      font-size: 12px;
+      color: var(--text-light);
+      margin-top: 6px;
+    }
+
+    .char-count.warning {
+      color: #f59e0b;
+    }
+
+    .char-count.error {
+      color: var(--error);
+    }
+
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .radio-option:hover {
+      border-color: var(--primary);
+    }
+
+    .radio-option input[type="radio"] {
+      margin-right: 12px;
+      accent-color: var(--primary);
+      width: 18px;
+      height: 18px;
+    }
+
+    .radio-option .option-content {
+      flex: 1;
+    }
+
+    .radio-option .option-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .radio-option .option-description {
+      font-size: 13px;
+      color: var(--text-light);
+    }
+
+    .upload-box {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 40px 20px;
+      text-align: center;
+      background: var(--bg);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-bottom: 15px;
+    }
+
+    .upload-box:hover {
+      background: var(--bg-dark);
+      border-color: var(--primary);
+    }
+
+    .upload-box i {
+      font-size: 36px;
+      color: var(--primary);
+      margin-bottom: 15px;
+    }
+
+    .upload-box h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .upload-box p {
+      color: var(--text-light);
+      font-size: 14px;
+    }
+
+    .image-preview {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .preview-item {
+      position: relative;
+      height: 120px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .preview-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .remove-btn {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 24px;
+      height: 24px;
+      background: rgba(239, 68, 68, 0.9);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .preview-item:hover .remove-btn {
+      opacity: 1;
+    }
+
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%236b7280' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      background-size: 16px;
+    }
+
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 18px;
+      font-size: 16px;
+      font-weight: 600;
+      width: 100%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    button:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(79, 70, 229, 0.3);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button:disabled {
+      background: var(--text-light);
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .alert {
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .alert.success {
+      background-color: #d1fae5;
+      color: #065f46;
+      display: block;
+    }
+
+    .alert.error {
+      background-color: #fee2e2;
+      color: var(--error);
+      display: block;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .fa-spinner {
+      animation: spin 1s linear infinite;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 30px 20px;
+      }
+      
+      h1 {
+        font-size: 26px;
+      }
+      
+      h1:before, h1:after {
+        width: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Interactive Ad Creative Brief</h1>
+    
+    <div id="alertBox" class="alert" style="display: none;"></div>
+    
+    <form id="creativeForm" enctype="multipart/form-data">
+      <h2><i class="fas fa-bullhorn"></i> Info on Text / Offer</h2>
+
+      <div class="form-group">
+        <input type="text" id="businessType" name="businessType" placeholder=" " required>
+        <label>Type of Business</label>
+      </div>
+
+      <div class="form-group">
+        <textarea id="icpProblem" name="icpProblem" rows="3" maxlength="300" placeholder=" " oninput="updateCharCount(this, 'problemCount')"></textarea>
+        <label>Customer Problem</label>
+        <div class="char-count" id="problemCount">0/300</div>
+      </div>
+
+      <div class="form-group">
+        <textarea id="icpSolution" name="icpSolution" rows="3" maxlength="300" placeholder=" " oninput="updateCharCount(this, 'solutionCount')"></textarea>
+        <label>Customer Solution</label>
+        <div class="char-count" id="solutionCount">0/300</div>
+      </div>
+
+      <div class="form-group">
+        <textarea id="offerStatement" name="offerStatement" rows="2" placeholder=" "></textarea>
+        <label>Offer Statement</label>
+      </div>
+
+      <div class="form-group">
+        <textarea id="offerStack" name="offerStack" rows="2" placeholder=" "></textarea>
+        <label>Offer Stack</label>
+      </div>
+
+      <div class="form-group">
+        <input type="url" id="landingPage" name="landingPage" placeholder=" ">
+        <label>Landing Page Link</label>
+      </div>
+
+      <div class="form-group">
+        <textarea id="otherInfo" name="otherInfo" rows="3" placeholder=" "></textarea>
+        <label>Other Info About Offering</label>
+      </div>
+
+      <h2><i class="fas fa-palette"></i> Info on the Design</h2>
+
+      <div class="radio-group">
+        <label class="radio-option">
+          <input type="radio" name="referenceType" value="library" checked onchange="toggleReferenceType()">
+          <div class="option-content">
+            <div class="option-title"><i class="fas fa-book"></i> Use Ads Library</div>
+            <div class="option-description">Provide a link to example ads from the Facebook Ads Library</div>
+          </div>
+        </label>
+        
+        <label class="radio-option">
+          <input type="radio" name="referenceType" value="upload" onchange="toggleReferenceType()">
+          <div class="option-content">
+            <div class="option-title"><i class="fas fa-upload"></i> Upload Images</div>
+            <div class="option-description">Upload your own reference images (max 5)</div>
+          </div>
+        </label>
+      </div>
+
+      <div id="librarySection" class="form-group">
+        <input type="url" id="adsLibraryLink" name="adsLibraryLink" placeholder=" " required>
+        <label>Example Ads Library Link</label>
+      </div>
+
+      <div id="uploadSection" class="form-group" style="display: none;">
+        <div class="upload-box" id="dropZone">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <h3>Upload Ad Examples</h3>
+          <p>Drag & drop images here or click to browse</p>
+          <input type="file" id="fileInput" name="images" accept="image/*" multiple style="display: none;" />
+        </div>
+        <div class="image-preview" id="imagePreview"></div>
+      </div>
+
+      <h2><i class="fas fa-ad"></i> Select Ad Type</h2>
+
+      <div class="form-group">
+        <select id="adType" name="adType" required>
+          <option value="" disabled selected>Select one ad type...</option>
+          <option value="A.I. Situation Ads">A.I. Situation Ads</option>
+          <option value="Canva Style Offer on Image Ads">Canva Style Offer on Image Ads</option>
+          <option value="Visual Graphic/Diagram Ads">Visual Graphic/Diagram Ads</option>
+          <option value="Compare Contrast Ads (Us vs Them)">Compare Contrast Ads (Us vs Them)</option>
+          <option value="Before/After Ads">Before/After Ads</option>
+          <option value="Model on Image Ads (Picture and Text)">Model on Image Ads (Picture and Text)</option>
+        </select>
+        <label>Ad Type</label>
+      </div>
+
+      <button type="submit" id="submitBtn">
+        <i class="fas fa-paper-plane"></i> Submit Creative Brief
+      </button>
+    </form>
+  </div>
+
+  <script>
+    // Character count for textareas
+    function updateCharCount(textarea, id) {
+      const count = textarea.value.length;
+      const countElement = document.getElementById(id);
+      countElement.innerText = `${count}/300`;
+      
+      // Add warning/error classes based on count
+      countElement.classList.remove('warning', 'error');
+      if (count > 250) {
+        countElement.classList.add('warning');
+      }
+      if (count >= 300) {
+        countElement.classList.add('error');
+      }
+    }
+
+    // Toggle between library and upload sections
+    function toggleReferenceType() {
+      const libraryOption = document.querySelector('input[name="referenceType"]:checked').value === 'library';
+      document.getElementById('librarySection').style.display = libraryOption ? 'block' : 'none';
+      document.getElementById('uploadSection').style.display = libraryOption ? 'none' : 'block';
+      
+      // Update required attributes
+      document.getElementById('adsLibraryLink').required = libraryOption;
+    }
+
+    // Image upload functionality
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const preview = document.getElementById('imagePreview');
+    const MAX_FILES = 5;
+    let uploadedFiles = [];
+
+    // Click to open file dialog
+    dropZone.addEventListener('click', () => fileInput.click());
+
+    // Handle drag and drop
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.style.background = 'var(--primary-light)';
+      dropZone.style.borderColor = 'var(--primary)';
+    });
+
+    ['dragleave', 'dragend'].forEach(type => {
+      dropZone.addEventListener(type, () => {
+        dropZone.style.background = 'var(--bg)';
+        dropZone.style.borderColor = 'var(--border)';
+      });
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.style.background = 'var(--bg)';
+      dropZone.style.borderColor = 'var(--border)';
+      
+      if (e.dataTransfer.files.length) {
+        handleFiles(e.dataTransfer.files);
+      }
+    });
+
+    // Handle file selection
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files.length) {
+        handleFiles(fileInput.files);
+      }
+    });
+
+    // Process uploaded files
+    function handleFiles(files) {
+      const remainingSlots = MAX_FILES - uploadedFiles.length;
+      if (remainingSlots <= 0) {
+        showAlert(`You can upload a maximum of ${MAX_FILES} files. Please remove some existing files before adding more.`, 'error');
+        return;
+      }
+      
+      const newFiles = Array.from(files)
+        .filter(file => file.type.match('image.*'))
+        .slice(0, remainingSlots);
+      
+      if (newFiles.length === 0) {
+        showAlert('Please upload only image files (JPEG, PNG, etc.)', 'error');
+        return;
+      }
+      
+      uploadedFiles = [...uploadedFiles, ...newFiles];
+      updatePreview();
+    }
+
+    // Update the preview with all uploaded files
+    function updatePreview() {
+      preview.innerHTML = '';
+      
+      if (uploadedFiles.length === 0) return;
+      
+      uploadedFiles.forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const previewItem = document.createElement('div');
+          previewItem.className = 'preview-item';
+          
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          img.alt = `Preview ${index + 1}`;
+          
+          const removeBtn = document.createElement('div');
+          removeBtn.className = 'remove-btn';
+          removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+          removeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            // Remove the file from our array
+            uploadedFiles.splice(index, 1);
+            updatePreview();
+          });
+          
+          previewItem.appendChild(img);
+          previewItem.appendChild(removeBtn);
+          preview.appendChild(previewItem);
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // Show alert message
+    function showAlert(message, type) {
+      const alertBox = document.getElementById('alertBox');
+      alertBox.textContent = message;
+      alertBox.className = `alert ${type}`;
+      alertBox.style.display = 'block';
+      
+      // Hide alert after 5 seconds
+      setTimeout(() => {
+        alertBox.style.display = 'none';
+      }, 5000);
+    }
+
+    // Form submission with webhook
+    document.getElementById('creativeForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      // Show loading state
+      const submitBtn = document.getElementById('submitBtn');
+      const originalBtnText = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<i class="fas fa-spinner"></i> Processing...';
+      submitBtn.disabled = true;
+      
+      try {
+        // Create FormData object
+        const formData = new FormData(this);
+        
+        // Manually append the files (fixes Chrome/Firefox differences)
+        uploadedFiles.forEach(file => {
+          formData.append('images', file);
+        });
+        
+        // Webhook URL
+        const WEBHOOK_URL = 'https://msquare.app.n8n.cloud/webhook-test/afef4117-7b67-48db-9c30-bfefc6b03b86';
+        
+        // Add timeout
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 15000);
+        
+        // Send request with FormData
+        const response = await fetch(WEBHOOK_URL, {
+          method: 'POST',
+          body: formData,
+          signal: controller.signal
+        });
+        
+        clearTimeout(timeoutId);
+        
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.message || `HTTP error: ${response.status}`);
+        }
+        
+        showAlert('Submitted successfully!', 'success');
+        this.reset();
+        uploadedFiles = [];
+        updatePreview();
+        
+      } catch (error) {
+        console.error('Error:', error);
+        showAlert(error.message || 'Submission failed', 'error');
+      } finally {
+        submitBtn.innerHTML = originalBtnText;
+        submitBtn.disabled = false;
+      }
+    });
+
+    // Initialize form
+    document.addEventListener('DOMContentLoaded', () => {
+      // Add character count to all textareas with maxlength
+      document.querySelectorAll('textarea[maxlength]').forEach(textarea => {
+        const id = textarea.getAttribute('oninput').match(/'(.*?)'/)[1];
+        updateCharCount(textarea, id);
+      });
+      
+      // Initialize reference type toggle
+      toggleReferenceType();
+    });
+  </script>
+</body>
+</html>
